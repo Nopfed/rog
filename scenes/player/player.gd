@@ -9,14 +9,27 @@ const inputs = {
 	'left': Vector2.LEFT,
 	'right': Vector2.RIGHT
 }
+const HOLD_THRESHOLD = 0.5
 
 var lastMove
+var is_action_held = false
+var hold_timer = 0.0
 
 
-func _unhandled_input(event: InputEvent) -> void:
+func _input(event):
 	for dir in inputs.keys():
 		if event.is_action_pressed(dir):
+			#is_action_held = true
 			move(dir)
+
+
+#func _process(_delta):
+	#if is_action_held:
+		#for dir in inputs.keys():
+			#if Input.is_action_pressed(dir):
+				#move(dir)
+			#elif Input.is_action_just_released(dir):
+				#is_action_held = false
 
 
 func move(dir):

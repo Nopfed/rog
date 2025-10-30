@@ -13,11 +13,17 @@ config_version=5
 config/name="rog"
 run/main_scene="uid://bcu5t6jkfpsvb"
 config/features=PackedStringArray("4.5", "GL Compatibility")
+run/max_fps=30
 config/icon="res://icon.svg"
 
 [autoload]
 
 Global="*res://global.gd"
+
+[display]
+
+window/size/viewport_width=1280
+window/size/viewport_height=720
 
 [input]
 
