@@ -111,6 +111,10 @@ tile_set = SubResource("TileSet_feb5d")
 metadata/_edit_lock_ = true
 
 [node name="Player" parent="." instance=ExtResource("3_feb5d")]
+position = Vector2(512, 256)
+metadata/_edit_group_ = true
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
-zoom = Vector2(4, 4)
+zoom = Vector2(2, 2)
+drag_horizontal_enabled = true
+drag_vertical_enabled = true
