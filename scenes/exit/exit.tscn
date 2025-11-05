@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3 uid="uid://djqcgqnllscu"]
+
+[ext_resource type="Script" uid="uid://p4mia75pyo7q" path="res://scenes/exit/exit.gd" id="1_wmb3t"]
+[ext_resource type="Texture2D" uid="uid://jtxu38c5gnl" path="res://staircase_down.png" id="1_ymjir"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wmb3t"]
+size = Vector2(12, 12)
+
+[node name="Exit" type="Node2D"]
+script = ExtResource("1_wmb3t")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("1_ymjir")
+offset = Vector2(8, 8)
+
+[node name="Area2D" type="Area2D" parent="."]
+position = Vector2(8, 8)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_wmb3t")
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]

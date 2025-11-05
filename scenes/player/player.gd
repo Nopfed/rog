@@ -1,4 +1,4 @@
-extends Node2D
+extends CharacterBody2D
 
 @onready var ray = $RayCast2D
 
@@ -12,8 +12,9 @@ const inputs = {
 	'up_right': Vector2(1, -1),
 	'down_left': Vector2(-1, 1),
 	'down_right': Vector2(1, 1),
+	'wait': Vector2(0, 0)
 }
-const HOLD_THRESHOLD = 0.5
+#const HOLD_THRESHOLD = 0.5
 
 #var lastMove
 #var is_action_held = false

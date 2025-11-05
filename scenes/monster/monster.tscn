@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://c87j0b1f7nfkg"]
+
+[ext_resource type="Texture2D" uid="uid://dv3q18h0bcdno" path="res://rat.png" id="1_rk3jy"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1uvy5"]
+size = Vector2(12, 12)
+
+[node name="Monster" type="Node2D" groups=["MONSTER"]]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("1_rk3jy")
+offset = Vector2(8, 8)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(8, 8)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("RectangleShape2D_1uvy5")

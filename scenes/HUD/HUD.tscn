@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://ctbdd13mp1h5t"]
+[gd_scene load_steps=7 format=3 uid="uid://ctbdd13mp1h5t"]
 
 [ext_resource type="PackedScene" uid="uid://bcu5t6jkfpsvb" path="res://game.tscn" id="1_rr8ot"]
 [ext_resource type="Script" uid="uid://dfem4ym0lhhhq" path="res://scenes/HUD/stats.gd" id="2_o38oh"]
@@ -8,6 +8,12 @@ bg_color = Color(0.54901963, 0.047058824, 0.047058824, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_o38oh"]
 bg_color = Color(0.047058824, 0.54901963, 0.047058824, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_43lqu"]
+bg_color = Color(0.047058824, 0.54901963, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_c2x1a"]
+bg_color = Color(0.7332887, 0.44824952, 0.9416543, 1)
 
 [node name="Hud" type="CanvasLayer"]
 
@@ -45,6 +51,7 @@ layout_mode = 2
 
 [node name="Health" type="HBoxContainer" parent="Stats/VBoxContainer"]
 layout_mode = 2
+alignment = 2
 
 [node name="Label" type="Label" parent="Stats/VBoxContainer/Health"]
 layout_mode = 2
@@ -55,6 +62,36 @@ custom_minimum_size = Vector2(200, 25)
 layout_mode = 2
 theme_override_styles/background = SubResource("StyleBoxFlat_rr8ot")
 theme_override_styles/fill = SubResource("StyleBoxFlat_o38oh")
+value = 80.0
+show_percentage = false
+
+[node name="Magic" type="HBoxContainer" parent="Stats/VBoxContainer"]
+layout_mode = 2
+alignment = 2
+
+[node name="Label" type="Label" parent="Stats/VBoxContainer/Magic"]
+layout_mode = 2
+text = "MP:"
+
+[node name="ProgressBar" type="ProgressBar" parent="Stats/VBoxContainer/Magic"]
+custom_minimum_size = Vector2(200, 25)
+layout_mode = 2
+theme_override_styles/fill = SubResource("StyleBoxFlat_43lqu")
+value = 80.0
+show_percentage = false
+
+[node name="EXP" type="HBoxContainer" parent="Stats/VBoxContainer"]
+layout_mode = 2
+alignment = 2
+
+[node name="Label" type="Label" parent="Stats/VBoxContainer/EXP"]
+layout_mode = 2
+text = "XP:"
+
+[node name="ProgressBar" type="ProgressBar" parent="Stats/VBoxContainer/EXP"]
+custom_minimum_size = Vector2(200, 25)
+layout_mode = 2
+theme_override_styles/fill = SubResource("StyleBoxFlat_c2x1a")
 value = 80.0
 show_percentage = false
 
