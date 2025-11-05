@@ -1,7 +1,7 @@
 extends Node
 
 
-var moveCount: int
+var stepCount: int
 
 func initialize():
-	moveCount = 0
+	stepCount = 0
