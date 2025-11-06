@@ -1,9 +1,15 @@
-[gd_scene load_steps=7 format=4 uid="uid://bcu5t6jkfpsvb"]
+[gd_scene load_steps=9 format=4 uid="uid://bcu5t6jkfpsvb"]
 
 [ext_resource type="Texture2D" uid="uid://bg4nq82n30gro" path="res://tilemap.png" id="1_80nbo"]
 [ext_resource type="Script" uid="uid://cwr8gsuerswsk" path="res://game.gd" id="1_e2o6t"]
 [ext_resource type="Texture2D" uid="uid://c54kfxcq6pcbb" path="res://parallax_background.png" id="2_fc0e3"]
 [ext_resource type="PackedScene" uid="uid://sm3jtyudqho2" path="res://scenes/player/player.tscn" id="3_feb5d"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_fc0e3"]
+noise_type = 3
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_fc0e3"]
+noise = SubResource("FastNoiseLite_fc0e3")
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_e2o6t"]
 texture = ExtResource("1_80nbo")
@@ -96,6 +102,7 @@ sources/0 = SubResource("TileSetAtlasSource_e2o6t")
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_e2o6t")
+noiseTexture = SubResource("NoiseTexture2D_fc0e3")
 
 [node name="ParallaxBackground" type="Parallax2D" parent="."]
 repeat_size = Vector2(1600, 900)
