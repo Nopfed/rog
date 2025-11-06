@@ -1,11 +1,13 @@
-[gd_scene load_steps=3 format=3 uid="uid://c87j0b1f7nfkg"]
+[gd_scene load_steps=4 format=3 uid="uid://c87j0b1f7nfkg"]
 
+[ext_resource type="Script" uid="uid://doseumqh3yg64" path="res://scenes/monster/monster.gd" id="1_1uvy5"]
 [ext_resource type="Texture2D" uid="uid://dv3q18h0bcdno" path="res://rat.png" id="1_rk3jy"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1uvy5"]
 size = Vector2(12, 12)
 
 [node name="Monster" type="Node2D" groups=["MONSTER"]]
+script = ExtResource("1_1uvy5")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1

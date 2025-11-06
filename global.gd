@@ -34,4 +34,8 @@ func initialize():
 		'dex': 10,
 		'int': 10
 	}
-	
+
+
+func combat(attacker, attack, receiver):
+	print(attacker.name + 'attacks ' + receiver.name + '.')
+	receiver.getAttacked(attack)

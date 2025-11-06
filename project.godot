@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 [autoload]
 
 Global="*res://global.gd"
+Bestiary="*res://library/bestiary.gd"
 
 [display]
 
@@ -28,6 +29,7 @@ window/size/viewport_height=720
 [global_group]
 
 MONSTER=""
+PLAYER=""
 
 [input]
 

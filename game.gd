@@ -1,6 +1,8 @@
 extends Node2D
 
 @onready var exitScene = preload("res://scenes/exit/exit.tscn")
+@onready var monsterScene = preload("res://scenes/monster/monster.tscn")
+@onready var chestScene = preload('res://scenes/chest/chest.tscn')
 
 @export var noiseTexture: NoiseTexture2D
 
@@ -12,9 +14,16 @@ const MIN_MAP_HEIGHT := 20
 const WATER_HEIGHT := -0.45
 const FLOOR_HEIGHT := 0.25
 const WALL_HEIGHT := 1.0
+const MONSTER_COUNT := 10
+const CHEST_COUNT := 10
 
 var noise: Noise
 
+# TODO -> Ability to travel down floors
+# TODO -> Spawn monsters
+# TODO -> Ability to fight monsters
+# TODO -> Level up
+# TODO -> Game over
 
 func _ready() -> void:
 	newGame()
@@ -29,13 +38,12 @@ func newGame():
 
 
 func drawMap():
-	# TODO -> Starting safe zone
 	# TODO -> If not drawing the first floor, create staircase back up
 	# TODO -> Spawn monsters on non-wall tiles
 	var noiseValue
 	var mapWidth = randi_range(MIN_MAP_WIDTH, MAX_MAP_WIDTH)
 	var mapHeight = randi_range(MIN_MAP_HEIGHT, MAX_MAP_HEIGHT)
-	var floorTiles: Array
+	var floorTiles: Array[Vector2]
 	
 	$TileMapLayer.clear()
 	
@@ -76,3 +84,23 @@ func drawMap():
 	
 	$Player.position = playerPosition * TILE_SIZE
 	
+	spawnMonsters(floorTiles)
+	spawnChests(floorTiles)
+
+
+func spawnMonsters(floorTiles: Array[Vector2]):
+	for mob in MONSTER_COUNT:
+		var newMonster = monsterScene.instantiate()
+		
+		newMonster.position = floorTiles.pop_back() * TILE_SIZE
+		
+		add_child(newMonster)
+
+
+func spawnChests(floorTiles: Array[Vector2]):
+	for chest in CHEST_COUNT:
+		var newChest = chestScene.instantiate()
+		
+		newChest.position = floorTiles.pop_back() * TILE_SIZE
+		
+		add_child(newChest)
