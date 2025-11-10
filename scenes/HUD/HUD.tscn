@@ -1,5 +1,6 @@
-[gd_scene load_steps=7 format=3 uid="uid://ctbdd13mp1h5t"]
+[gd_scene load_steps=8 format=3 uid="uid://ctbdd13mp1h5t"]
 
+[ext_resource type="Texture2D" uid="uid://csml27ef0h47x" path="res://UI_background.png" id="1_43lqu"]
 [ext_resource type="PackedScene" uid="uid://bcu5t6jkfpsvb" path="res://game.tscn" id="1_rr8ot"]
 [ext_resource type="Script" uid="uid://dfem4ym0lhhhq" path="res://scenes/HUD/stats.gd" id="2_o38oh"]
 
@@ -17,12 +18,20 @@ bg_color = Color(0.7332887, 0.44824952, 0.9416543, 1)
 
 [node name="Hud" type="CanvasLayer"]
 
-[node name="Borders" type="ColorRect" parent="."]
-offset_left = -15.0
-offset_top = -12.0
-offset_right = 1293.0
-offset_bottom = 737.0
-color = Color(0.047058824, 0.047058824, 0.078431375, 1)
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="Borders" type="TextureRect" parent="MarginContainer"]
+layout_mode = 2
+texture = ExtResource("1_43lqu")
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="."]
 offset_left = 16.0

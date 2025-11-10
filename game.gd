@@ -11,19 +11,20 @@ const MAX_MAP_WIDTH := 100
 const MAX_MAP_HEIGHT := 100
 const MIN_MAP_WIDTH := 20
 const MIN_MAP_HEIGHT := 20
-const WATER_HEIGHT := -0.45
+const WATER_HEIGHT := -0.4
 const FLOOR_HEIGHT := 0.25
 const WALL_HEIGHT := 1.0
-const MONSTER_COUNT := 10
-const CHEST_COUNT := 10
+const MONSTER_COUNT := 8
+const CHEST_COUNT := 3
 
 var noise: Noise
 
 # TODO -> Ability to travel down floors
-# TODO -> Spawn monsters
 # TODO -> Ability to fight monsters
 # TODO -> Level up
 # TODO -> Game over
+
+# BUG -> Can leave map boundaries in the top right and bottom left
 
 func _ready() -> void:
 	newGame()
@@ -39,7 +40,6 @@ func newGame():
 
 func drawMap():
 	# TODO -> If not drawing the first floor, create staircase back up
-	# TODO -> Spawn monsters on non-wall tiles
 	var noiseValue
 	var mapWidth = randi_range(MIN_MAP_WIDTH, MAX_MAP_WIDTH)
 	var mapHeight = randi_range(MIN_MAP_HEIGHT, MAX_MAP_HEIGHT)
@@ -56,20 +56,43 @@ func drawMap():
 			if $TileMapLayer.get_cell_source_id(Vector2(x, y)) < 0:
 				# Draw water
 				if noiseValue < WATER_HEIGHT:
+					var brightness = 0.1
 					$TileMapLayer.set_cell(Vector2(x, y), 0, Vector2(5, 0))
+					$TileMapLayer.modulated_cells[Vector2i(x, y)] = \
+						Color(
+							0,
+							abs(noiseValue) + brightness,
+							abs(noiseValue) + brightness
+						)
 				# Draw floor
 				elif noiseValue < FLOOR_HEIGHT:
 					floorTiles.append(Vector2(x, y))
 					$TileMapLayer.set_cell(Vector2(x, y), 0, Vector2(2, 0))
+					$TileMapLayer.modulated_cells[Vector2i(x, y)] = \
+						Color(abs(noiseValue), abs(noiseValue), abs(noiseValue))
 				else: # Draw Walls
 					if noiseValue > FLOOR_HEIGHT:
 						$TileMapLayer.set_cell(Vector2(x, y), 0, Vector2(0, 0))
+						#$TileMapLayer.modulated_cells[Vector2i(x, y)] = \
+							#Color(
+								#abs(noiseValue),
+								#abs(noiseValue),
+								#abs(noiseValue)
+							#)
 			
 			# Draw Borders
-			if x == -mapWidth or x == mapWidth - 1:
-				$TileMapLayer.set_cell(Vector2(x, y), 0, Vector2(0, 0))
-			if y == -mapHeight or y == mapHeight - 1:
-				$TileMapLayer.set_cell(Vector2(x, y), 0, Vector2(0, 0))
+			if x == -mapWidth:
+				$TileMapLayer.set_cell(Vector2(x - 1, y), 0, Vector2(0, 0))
+				$TileMapLayer.set_cell(Vector2(x - 1, y - 1), 0, Vector2(0, 0))
+			if x == mapWidth - 1:
+				$TileMapLayer.set_cell(Vector2(x + 1, y), 0, Vector2(0, 0))
+				$TileMapLayer.set_cell(Vector2(x + 1, y + 1), 0, Vector2(0, 0))
+			if y == -mapHeight:
+				$TileMapLayer.set_cell(Vector2(x, y - 1), 0, Vector2(0, 0))
+				$TileMapLayer.set_cell(Vector2(x - 1, y - 1), 0, Vector2(0, 0))
+			if y == mapHeight - 1:
+				$TileMapLayer.set_cell(Vector2(x, y + 1), 0, Vector2(0, 0))
+				$TileMapLayer.set_cell(Vector2(x + 1, y + 1), 0, Vector2(0, 0))
 	
 	floorTiles.shuffle()
 	
