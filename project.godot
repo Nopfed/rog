@@ -30,6 +30,7 @@ window/size/viewport_height=720
 
 MONSTER=""
 PLAYER=""
+DIGGABLE=""
 
 [input]
 

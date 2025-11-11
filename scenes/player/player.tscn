@@ -1,9 +1,21 @@
-[gd_scene load_steps=4 format=3 uid="uid://sm3jtyudqho2"]
+[gd_scene load_steps=7 format=3 uid="uid://sm3jtyudqho2"]
 
 [ext_resource type="Script" uid="uid://dflnkg55m6e8k" path="res://scenes/player/player.gd" id="1_8afob"]
 [ext_resource type="Texture2D" uid="uid://bcchd7vuuhbp" path="res://scenes/player/player.png" id="2_dovo2"]
 
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_dovo2"]
+light_mode = 1
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dovo2"]
+
+[sub_resource type="Gradient" id="Gradient_dovo2"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_gmlin"]
+gradient = SubResource("Gradient_dovo2")
+fill = 1
+fill_from = Vector2(0.510917, 0.5021834)
+fill_to = Vector2(0.8646288, 0.14410481)
 
 [node name="Player" type="CharacterBody2D" groups=["PLAYER"]]
 collision_layer = 0
@@ -12,6 +24,7 @@ script = ExtResource("1_8afob")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1
+material = SubResource("CanvasItemMaterial_dovo2")
 texture = ExtResource("2_dovo2")
 offset = Vector2(8, 8)
 
@@ -21,3 +34,9 @@ target_position = Vector2(16, 0)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_dovo2")
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+shadow_enabled = true
+texture = SubResource("GradientTexture2D_gmlin")
+offset = Vector2(8, 8)
+texture_scale = 1.5

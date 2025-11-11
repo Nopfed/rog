@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=4 uid="uid://bcu5t6jkfpsvb"]
+[gd_scene load_steps=11 format=4 uid="uid://bcu5t6jkfpsvb"]
 
 [ext_resource type="Texture2D" uid="uid://bg4nq82n30gro" path="res://tilemap.png" id="1_80nbo"]
 [ext_resource type="Script" uid="uid://cwr8gsuerswsk" path="res://game.gd" id="1_e2o6t"]
@@ -12,9 +12,13 @@ noise_type = 3
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_fc0e3"]
 noise = SubResource("FastNoiseLite_fc0e3")
 
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_7jktm"]
+polygon = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_e2o6t"]
 texture = ExtResource("1_80nbo")
 0:0/0 = 0
+0:0/0/occlusion_layer_0/polygon_0/polygon = SubResource("OccluderPolygon2D_7jktm")
 0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-4, -4, 4, -4, 4, 4, -4, 4)
 0:1/0 = 0
 0:2/0 = 0
@@ -33,7 +37,27 @@ texture = ExtResource("1_80nbo")
 1:2/0 = 0
 1:1/0 = 0
 1:0/0 = 0
+2:0/next_alternative_id = 8
 2:0/0 = 0
+2:0/1 = 1
+2:0/1/flip_h = true
+2:0/2 = 2
+2:0/2/flip_v = true
+2:0/3 = 3
+2:0/3/transpose = true
+2:0/4 = 4
+2:0/4/flip_h = true
+2:0/4/flip_v = true
+2:0/5 = 5
+2:0/5/flip_h = true
+2:0/5/transpose = true
+2:0/6 = 6
+2:0/6/flip_v = true
+2:0/6/transpose = true
+2:0/7 = 7
+2:0/7/flip_h = true
+2:0/7/flip_v = true
+2:0/7/transpose = true
 2:1/0 = 0
 2:2/0 = 0
 2:3/0 = 0
@@ -98,6 +122,7 @@ texture = ExtResource("1_80nbo")
 8:8/0 = 0
 
 [sub_resource type="TileSet" id="TileSet_feb5d"]
+occlusion_layer_0/light_mask = 1
 physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_e2o6t")
 
@@ -127,5 +152,6 @@ position = Vector2(512, 256)
 metadata/_edit_group_ = true
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
+zoom = Vector2(2, 2)
 drag_horizontal_enabled = true
 drag_vertical_enabled = true

@@ -12,7 +12,8 @@ const MAX_MAP_HEIGHT := 100
 const MIN_MAP_WIDTH := 20
 const MIN_MAP_HEIGHT := 20
 const WATER_HEIGHT := -0.4
-const FLOOR_HEIGHT := 0.25
+const FLOOR_FLOOR := -0.1
+const FLOOR_HEIGHT := 0
 const WALL_HEIGHT := 1.0
 const MONSTER_COUNT := 8
 const CHEST_COUNT := 3
@@ -23,8 +24,12 @@ var noise: Noise
 # TODO -> Ability to fight monsters
 # TODO -> Level up
 # TODO -> Game over
+# TODO -> Fog of war
+# TODO -> Diggable dirt tiles
+# TODO -> Dirt layer
+# TODO -> Path/tunnel of floor tiles from player to exit
 
-# BUG -> Can leave map boundaries in the top right and bottom left
+# TODO READABILITY -> Create struct for tilemap coordinates and source ids
 
 func _ready() -> void:
 	newGame()
@@ -65,20 +70,22 @@ func drawMap():
 							abs(noiseValue) + brightness
 						)
 				# Draw floor
-				elif noiseValue < FLOOR_HEIGHT:
+				elif noiseValue < FLOOR_HEIGHT and noiseValue > FLOOR_FLOOR:
 					floorTiles.append(Vector2(x, y))
+					#var altTileRand = randi_range(0, 7)
 					$TileMapLayer.set_cell(Vector2(x, y), 0, Vector2(2, 0))
-					$TileMapLayer.modulated_cells[Vector2i(x, y)] = \
-						Color(abs(noiseValue), abs(noiseValue), abs(noiseValue))
-				else: # Draw Walls
-					if noiseValue > FLOOR_HEIGHT:
-						$TileMapLayer.set_cell(Vector2(x, y), 0, Vector2(0, 0))
-						#$TileMapLayer.modulated_cells[Vector2i(x, y)] = \
-							#Color(
-								#abs(noiseValue),
-								#abs(noiseValue),
-								#abs(noiseValue)
-							#)
+					#$TileMapLayer.modulated_cells[Vector2i(x, y)] = \
+						#Color(abs(noiseValue * 3), abs(noiseValue * 3), abs(noiseValue * 3))
+				# Draw Walls
+				elif noiseValue > FLOOR_HEIGHT \
+				or (noiseValue < FLOOR_FLOOR and noiseValue > WATER_HEIGHT):
+					$TileMapLayer.set_cell(Vector2(x, y), 0, Vector2(0, 0))
+					#$TileMapLayer.modulated_cells[Vector2i(x, y)] = \
+						#Color(
+							#abs(noiseValue),
+							#abs(noiseValue),
+							#abs(noiseValue)
+						#)
 			
 			# Draw Borders
 			if x == -mapWidth:
@@ -107,8 +114,23 @@ func drawMap():
 	
 	$Player.position = playerPosition * TILE_SIZE
 	
+	digToExit(playerPosition, exitCoords)
 	spawnMonsters(floorTiles)
 	spawnChests(floorTiles)
+
+
+func digToExit(playerStart: Vector2, exit: Vector2):
+	# TODO -> Draw random curce to exit and then carve those tiles
+	
+	var directionToExit = playerStart.direction_to(exit)
+	var currentTile: Vector2 = playerStart
+	
+	for i in range(ceili(playerStart.distance_to(exit))):
+		currentTile = playerStart + (directionToExit * i)
+		
+		$TileMapLayer.set_cell(currentTile, 0, Vector2(2, 0))
+		$TileMapLayer.set_cell(currentTile + Vector2.UP, 0, Vector2(2, 0))
+		$TileMapLayer.set_cell(currentTile + Vector2.DOWN, 0, Vector2(2, 0))
 
 
 func spawnMonsters(floorTiles: Array[Vector2]):

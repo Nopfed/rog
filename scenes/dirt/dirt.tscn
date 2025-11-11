@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://b7bmgphtvt1j5"]
+
+[ext_resource type="Texture2D" uid="uid://ca3rx6i85a1aj" path="res://dirt.png" id="1_urtws"]
+
+[node name="Dirt" type="Node2D" groups=["DIGGABLE"]]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("1_urtws")

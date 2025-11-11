@@ -9,13 +9,13 @@ size = Vector2(12, 12)
 [node name="Monster" type="Node2D" groups=["MONSTER"]]
 script = ExtResource("1_1uvy5")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture_filter = 1
-texture = ExtResource("1_rk3jy")
-offset = Vector2(8, 8)
-
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 position = Vector2(8, 8)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
 shape = SubResource("RectangleShape2D_1uvy5")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("1_rk3jy")
+offset = Vector2(8, 8)
