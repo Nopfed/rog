@@ -2,9 +2,10 @@ extends Node
 
 
 var rat = {
-	'hp': 3,
-	'ac': 10,
-	'str': 1,
-	'dex': 10,
-	'int': 5
+	'hitpoints': 3,
+	'maxHitpoints': 3,
+	'armorClass': 10,
+	'strength': 1,
+	'dexterity': 10,
+	'intelligence': 5
 }

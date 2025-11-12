@@ -20,14 +20,22 @@ const CHEST_COUNT := 3
 
 var noise: Noise
 
-# TODO -> Ability to travel down floors
-# TODO -> Ability to fight monsters
-# TODO -> Level up
+# TODO -> Combat
 # TODO -> Game over
+# TODO -> Monster AI
+
+# TODO -> Player stats
+# TODO -> Equippable gear
+# TODO -> Loot
+# TODO -> Loot chests
+
+# TODO -> Ability to travel down floors
+
+# TODO -> Level up
+
 # TODO -> Fog of war
 # TODO -> Diggable dirt tiles
 # TODO -> Dirt layer
-# TODO -> Path/tunnel of floor tiles from player to exit
 
 # TODO READABILITY -> Create struct for tilemap coordinates and source ids
 

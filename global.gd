@@ -1,17 +1,17 @@
 extends Node
 
 var player := {
-	'hp': 10,
-	'max_hp': 10,
-	'mp': 10,
-	'max_mp': 10,
-	'xp': 0,
-	'level_up': 100,
+	'hitpoints': 10,
+	'maxHitpoints': 10,
+	'mana': 10,
+	'maxMana': 10,
+	'experience': 0,
+	'experienceToLevel': 100,
 	'gold': 10,
-	'ac': 10,
-	'str': 10,
-	'dex': 10,
-	'int': 10
+	'armorClass': 10,
+	'strength': 10,
+	'dexterity': 10,
+	'intelligence': 10
 }
 
 var stepCount: int
@@ -22,17 +22,17 @@ func initialize():
 	stepCount = 0
 	canExitLevel = false
 	player = {
-		'hp': 10,
-		'max_hp': 10,
-		'mp': 10,
-		'max_mp': 10,
-		'xp': 0,
-		'level_up': 100,
+		'hitpoints': 10,
+		'maxHitpoints': 10,
+		'mana': 10,
+		'maxMana': 10,
+		'experience': 0,
+		'experienceToLevel': 100,
 		'gold': 10,
-		'ac': 10,
-		'str': 10,
-		'dex': 10,
-		'int': 10
+		'armorClass': 10,
+		'strength': 10,
+		'dexterity': 10,
+		'intelligence': 10
 	}
 
 
