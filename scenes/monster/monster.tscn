@@ -23,6 +23,10 @@ texture_filter = 1
 texture = ExtResource("1_rk3jy")
 offset = Vector2(8, 8)
 
+[node name="RayCast2D" type="RayCast2D" parent="."]
+position = Vector2(8, 8)
+target_position = Vector2(16, 0)
+
 [node name="Hearing" type="Area2D" parent="."]
 position = Vector2(8, 8)
 metadata/_edit_lock_ = true

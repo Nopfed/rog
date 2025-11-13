@@ -16,6 +16,7 @@ var player := {
 
 var stepCount: int
 var canExitLevel: bool
+var playerRef: CharacterBody2D
 
 
 func initialize():
@@ -39,3 +40,11 @@ func initialize():
 func combat(attacker, attack, receiver):
 	print(attacker.name + 'attacks ' + receiver.name + '.')
 	receiver.getAttacked(attack)
+
+
+func moveMonsters():
+	# TODO -> Make monster a classname
+	var monsters = get_tree().get_nodes_in_group('MONSTER')
+	
+	for mob in monsters:
+		mob.move()

@@ -17,6 +17,9 @@ const inputs = {
 
 #var lastMove
 
+func _ready() -> void:
+	Global.playerRef = self
+
 
 func _input(event):
 	for dir in inputs.keys():
@@ -39,3 +42,4 @@ func move(dir):
 			#if collider.move(dir):
 				#position += inputs[dir] * tileSize
 				#Global.stepCount += 1
+	Global.moveMonsters()

@@ -13,11 +13,11 @@ func updateSteps():
 	$VBoxContainer/Steps/Value.text = str(Global.stepCount)
 
 func updateStats():
-	$VBoxContainer/Health/ProgressBar.value = Global.player['hp']
-	$VBoxContainer/Magic/ProgressBar.value = Global.player['mp']
-	$VBoxContainer/EXP/ProgressBar.value = Global.player['xp']
+	$VBoxContainer/Health/ProgressBar.value = Global.player['hitpoints']
+	$VBoxContainer/Magic/ProgressBar.value = Global.player['mana']
+	$VBoxContainer/EXP/ProgressBar.value = Global.player['experience']
 
 func setupPlayerStats():
-	$VBoxContainer/Health/ProgressBar.max_value = Global.player['max_hp']
-	$VBoxContainer/Magic/ProgressBar.max_value = Global.player['max_mp']
-	$VBoxContainer/EXP/ProgressBar.max_value = Global.player['level_up']
+	$VBoxContainer/Health/ProgressBar.max_value = Global.player['maxHitpoints']
+	$VBoxContainer/Magic/ProgressBar.max_value = Global.player['maxMana']
+	$VBoxContainer/EXP/ProgressBar.max_value = Global.player['experienceToLevel']
