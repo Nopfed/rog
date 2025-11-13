@@ -16,8 +16,6 @@ var resting := false
 # TODO -> Equipped gear
 # TODO -> Combat stats
 # TODO -> Combat logic based on intelligence stat
-# TODO -> Dynamically load monster stats and sprites
-# TODO -> Dynamically load monster sprites
 # TODO -> Hearing trigger
 # TODO -> Sight trigger
 # TODO -> Flip sprite and sight cone based on direction moved (left or right)
@@ -33,6 +31,7 @@ func _ready() -> void:
 
 
 func initialize():
+	# TODO -> Dynamic monster data from bestiary
 	name = 'rat'
 	stats = Bestiary.rat
 
@@ -49,6 +48,7 @@ func move():
 	
 	getPlayerRef()
 	
+	# BUG -> Monsters only move towards player if player is orthogonal to them
 	if canSeePlayer:
 		directionToMove = Vector2i(position.direction_to(playerRef.position))
 	else:
@@ -60,6 +60,12 @@ func move():
 	
 	ray.target_position = directionToMove * TILE_SIZE
 	ray.force_raycast_update()
+	
+	# NB: look_at() rotates the x axis and we have a visual offset we need to
+	# account for
+	var lookAtOffset := Vector2(8, 8)
+	
+	$Sight.look_at(to_global(ray.target_position) + lookAtOffset)
 	
 	if inRangeOfPlayer:
 		var attack = getAttack()
@@ -78,6 +84,7 @@ func move():
 
 
 func getAttack():
+	# TODO -> Pull this data dynamically from bestiary on monster init
 	var type = 'physical'
 	var attackRoll = randi_range(1, 20)
 	var damageRoll: int
@@ -101,3 +108,16 @@ func getAttack():
 			# fight player
 		# else: get in range
 # 
+
+
+func _on_sight_body_entered(body: Node2D) -> void:
+	if body.is_in_group('PLAYER'):
+		canSeePlayer = true
+		print(self, "I can see the player.")
+
+
+func _on_sight_body_exited(body: Node2D) -> void:
+	# TODO -> Based on monster's intelligence have the mob go into search mode
+	if body.is_in_group('PLAYER'):
+		canSeePlayer = false
+		print(self, "The player has left my vision.")

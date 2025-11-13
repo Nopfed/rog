@@ -24,6 +24,10 @@ var noise: Noise
 # TODO -> Game over
 # TODO -> Monster AI
 
+# TODO -> Adventure log chat box
+# TODO -> Floating combat numbers/text
+# TODO -> Combat sounds
+
 # TODO -> Player stats
 # TODO -> Equippable gear
 # TODO -> Loot
@@ -36,8 +40,13 @@ var noise: Noise
 # TODO -> Fog of war
 # TODO -> Diggable dirt tiles
 # TODO -> Dirt layer
+# TODO -> Loot filter
 
-# TODO READABILITY -> Create struct for tilemap coordinates and source ids
+# SILLY STUFF
+# TODO -> Allow players to replace textures and sounds in the game
+
+# READABILITY
+# TODO -> Create struct for tilemap coordinates and source ids
 
 func _ready() -> void:
 	newGame()
@@ -128,7 +137,7 @@ func drawMap():
 
 
 func digToExit(playerStart: Vector2, exit: Vector2):
-	# TODO -> Draw random curce to exit and then carve those tiles
+	# TODO -> Draw random curve to exit and then carve those tiles
 	
 	var directionToExit = playerStart.direction_to(exit)
 	var currentTile: Vector2 = playerStart

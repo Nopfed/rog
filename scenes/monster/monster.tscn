@@ -41,4 +41,7 @@ metadata/_edit_group_ = true
 metadata/_edit_lock_ = true
 
 [node name="CollisionShape2D" type="CollisionPolygon2D" parent="Sight"]
-polygon = PackedVector2Array(0, 0, -16, -64, -128, -80, -128, 80, -16, 64)
+polygon = PackedVector2Array(0, 0, 16, 64, 128, 80, 128, -80, 16, -64)
+
+[connection signal="body_entered" from="Sight" to="." method="_on_sight_body_entered"]
+[connection signal="body_exited" from="Sight" to="." method="_on_sight_body_exited"]

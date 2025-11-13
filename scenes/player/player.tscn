@@ -7,6 +7,7 @@
 light_mode = 1
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dovo2"]
+size = Vector2(12, 12)
 
 [sub_resource type="Gradient" id="Gradient_dovo2"]
 colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
@@ -18,8 +19,6 @@ fill_from = Vector2(0.510917, 0.5021834)
 fill_to = Vector2(0.8646288, 0.14410481)
 
 [node name="Player" type="CharacterBody2D" groups=["PLAYER"]]
-collision_layer = 0
-collision_mask = 0
 script = ExtResource("1_8afob")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
@@ -33,6 +32,7 @@ position = Vector2(8, 8)
 target_position = Vector2(16, 0)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(8, 8)
 shape = SubResource("RectangleShape2D_dovo2")
 
 [node name="PointLight2D" type="PointLight2D" parent="."]
