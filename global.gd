@@ -40,8 +40,7 @@ func initialize():
 
 
 func combat(attacker, attack, receiver):
-	print(attacker.name + 'attacks ' + receiver.name + '.')
-	receiver.getAttacked(attacker.name, attack)
+	receiver.getAttacked(attacker.stats['name'], attack)
 
 
 func moveMonsters():
@@ -54,11 +53,10 @@ func moveMonsters():
 
 func sendMessage(message: String, _type: String = ''):
 	# TODO -> Utilize type for different colors of messages
+	var chatLog = get_node("/root/Hud/Log/Messages")
 	var newMessage = messageScene.instantiate()
+	var messageLabel = newMessage.getLabel()
 	
-	newMessage.label.text = message
-	
-	# BUG -> Can't access the chatlog through this method for some reason
-	var chatLog = get_tree().get_first_node_in_group('LOG')
+	messageLabel.text = message
 	
 	chatLog.add_child(newMessage)

@@ -48,6 +48,8 @@ var noise: Noise
 # READABILITY
 # TODO -> Create struct for tilemap coordinates and source ids
 
+# BUG -> Chat log is stacking messages on top of each other
+
 func _ready() -> void:
 	newGame()
 

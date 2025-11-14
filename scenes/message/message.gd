@@ -1,3 +1,9 @@
 extends HBoxContainer
 
-@onready var label = $Label
+var label: Label
+
+
+func getLabel():
+	label = $Label
+	
+	return label

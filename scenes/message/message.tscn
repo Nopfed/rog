@@ -4,6 +4,7 @@
 
 [sub_resource type="SystemFont" id="SystemFont_ixn7c"]
 font_names = PackedStringArray("Monospace")
+subpixel_positioning = 0
 
 [node name="Message" type="HBoxContainer"]
 anchors_preset = 15

@@ -10,6 +10,7 @@ var canSeePlayer := false
 var inRangeOfPlayer := false
 var sleeping := false
 var resting := false
+var seenByPlayer: = false
 
 
 # TODO -> Inventory
@@ -32,7 +33,6 @@ func _ready() -> void:
 
 func initialize():
 	# TODO -> Dynamic monster data from bestiary
-	name = 'rat'
 	stats = Bestiary.rat
 
 
@@ -100,24 +100,20 @@ func getAttack():
 	}
 
 
-# if can see player
-#	if health is low
-#		run
-# 	else
-		# if in range
-			# fight player
-		# else: get in range
-# 
-
-
 func _on_sight_body_entered(body: Node2D) -> void:
 	if body.is_in_group('PLAYER'):
 		canSeePlayer = true
-		print(self, "I can see the player.")
+		
+		if $VisibleOnScreenNotifier2D.is_on_screen():
+			Global.sendMessage('A ' + stats['name'] + ' notices you.')
 
 
 func _on_sight_body_exited(body: Node2D) -> void:
 	# TODO -> Based on monster's intelligence have the mob go into search mode
 	if body.is_in_group('PLAYER'):
 		canSeePlayer = false
-		print(self, "The player has left my vision.")
+
+
+func _on_visible_on_screen_notifier_2d_screen_entered() -> void:
+	seenByPlayer = true
+	Global.sendMessage('You see a ' + stats['name'] + '.')

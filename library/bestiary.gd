@@ -2,6 +2,7 @@ extends Node
 
 
 var rat = {
+	'name': 'Rat',
 	'hitpoints': 3,
 	'maxHitpoints': 3,
 	'armorClass': 10,

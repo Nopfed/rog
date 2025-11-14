@@ -45,10 +45,14 @@ func getAttacked(attacker: String, attack: Dictionary):
 		Global.player.hitpoints -= attack.damageRoll
 		
 		if attack.attackRoll == 20:
-			Global.sendMessage(attacker + 'crits!')
-		
-		Global.sendMessage(
-			attacker + 'attacks for ' + str(attack.damageRoll) + 'damage.'
-		)
+			Global.sendMessage(
+				'The ' + attacker + 'CRITS for ' +\
+				str(attack.damageRoll) + ' damage.'
+			)
+		else:
+			Global.sendMessage(
+				'The ' + attacker + ' attacks for ' +\
+				str(attack.damageRoll) + ' damage.'
+			)
 	else:
-		Global.sendMessage(attacker + ' misses.')
+		Global.sendMessage('The ' + attacker + ' misses.')
