@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://ctbdd13mp1h5t"]
+[gd_scene load_steps=9 format=3 uid="uid://ctbdd13mp1h5t"]
 
 [ext_resource type="Texture2D" uid="uid://csml27ef0h47x" path="res://UI_background.png" id="1_43lqu"]
 [ext_resource type="PackedScene" uid="uid://bcu5t6jkfpsvb" path="res://game.tscn" id="1_rr8ot"]
@@ -16,28 +16,24 @@ bg_color = Color(0.047058824, 0.54901963, 1, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_c2x1a"]
 bg_color = Color(0.7332887, 0.44824952, 0.9416543, 1)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wqij7"]
+bg_color = Color(0, 0, 0, 1)
+
 [node name="Hud" type="CanvasLayer"]
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="Borders" type="TextureRect" parent="."]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 8
-theme_override_constants/margin_top = 8
-theme_override_constants/margin_right = 8
-theme_override_constants/margin_bottom = 8
-
-[node name="Borders" type="TextureRect" parent="MarginContainer"]
-layout_mode = 2
 texture = ExtResource("1_43lqu")
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="."]
-offset_left = 16.0
-offset_top = 16.0
-offset_right = 976.0
-offset_bottom = 528.0
+offset_left = 12.0
+offset_top = 12.0
+offset_right = 972.0
+offset_bottom = 524.0
 
 [node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
 handle_input_locally = false
@@ -50,8 +46,10 @@ render_target_update_mode = 4
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -40.0
-offset_bottom = 40.0
+offset_left = -270.0
+offset_top = 12.0
+offset_right = -36.0
+offset_bottom = 122.0
 grow_horizontal = 0
 script = ExtResource("2_o38oh")
 
@@ -114,3 +112,13 @@ text = "Steps:"
 [node name="Value" type="Label" parent="Stats/VBoxContainer/Steps"]
 layout_mode = 2
 text = " 100000"
+
+[node name="Log" type="PanelContainer" parent="." groups=["LOG"]]
+offset_left = 12.0
+offset_top = 538.0
+offset_right = 404.0
+offset_bottom = 706.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_wqij7")
+
+[node name="Messages" type="VBoxContainer" parent="Log"]
+layout_mode = 2

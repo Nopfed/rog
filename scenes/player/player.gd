@@ -15,10 +15,10 @@ const inputs = {
 	'wait': Vector2(0, 0)
 }
 
-#var lastMove
 
 func _ready() -> void:
 	Global.playerRef = self
+	
 
 
 func _input(event):
@@ -28,18 +28,27 @@ func _input(event):
 
 
 func move(dir):
-	#lastMove = dir
 	ray.target_position = inputs[dir] * tileSize
 	ray.force_raycast_update()
 	
 	if !ray.is_colliding():
 		position += inputs[dir] * tileSize
 		Global.stepCount += 1
-	#else:
-		#var collider = ray.get_collider()
-		#
-		#if collider.is_in_group('WALL'):
-			#if collider.move(dir):
-				#position += inputs[dir] * tileSize
-				#Global.stepCount += 1
 	Global.moveMonsters()
+
+
+func getAttacked(attacker: String, attack: Dictionary):
+	# TODO -> Account for different types of damage against resistances
+	
+	if attack.attackRoll == 20 \
+	or !(attack.attackRoll < Global.player.armorClass):
+		Global.player.hitpoints -= attack.damageRoll
+		
+		if attack.attackRoll == 20:
+			Global.sendMessage(attacker + 'crits!')
+		
+		Global.sendMessage(
+			attacker + 'attacks for ' + str(attack.damageRoll) + 'damage.'
+		)
+	else:
+		Global.sendMessage(attacker + ' misses.')

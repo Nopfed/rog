@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3 uid="uid://n646ckk0rowx"]
+
+[ext_resource type="Script" uid="uid://ocutru61jprp" path="res://scenes/message/message.gd" id="1_a78qr"]
+
+[sub_resource type="SystemFont" id="SystemFont_ixn7c"]
+font_names = PackedStringArray("Monospace")
+
+[node name="Message" type="HBoxContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_a78qr")
+
+[node name="Label" type="Label" parent="."]
+custom_minimum_size = Vector2(390, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = SubResource("SystemFont_ixn7c")
+theme_override_font_sizes/font_size = 16
+text = "Placeholder message."
+autowrap_mode = 3

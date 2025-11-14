@@ -1,5 +1,7 @@
 extends Node
 
+@onready var messageScene = preload("res://scenes/message/message.tscn")
+
 var player := {
 	'hitpoints': 10,
 	'maxHitpoints': 10,
@@ -39,7 +41,7 @@ func initialize():
 
 func combat(attacker, attack, receiver):
 	print(attacker.name + 'attacks ' + receiver.name + '.')
-	receiver.getAttacked(attack)
+	receiver.getAttacked(attacker.name, attack)
 
 
 func moveMonsters():
@@ -48,3 +50,15 @@ func moveMonsters():
 	
 	for mob in monsters:
 		mob.move()
+
+
+func sendMessage(message: String, _type: String = ''):
+	# TODO -> Utilize type for different colors of messages
+	var newMessage = messageScene.instantiate()
+	
+	newMessage.label.text = message
+	
+	# BUG -> Can't access the chatlog through this method for some reason
+	var chatLog = get_tree().get_first_node_in_group('LOG')
+	
+	chatLog.add_child(newMessage)
