@@ -2,6 +2,10 @@ extends Node
 
 @onready var messageScene = preload("res://scenes/message/message.tscn")
 
+const FONT_COLORS = {
+	'hitPlayer': Color(0.5, 0.1, 0.1)
+}
+
 var player := {
 	'hitpoints': 10,
 	'maxHitpoints': 10,
@@ -51,11 +55,17 @@ func moveMonsters():
 		mob.move()
 
 
-func sendMessage(message: String, _type: String = ''):
+func sendMessage(message: String, type: String = ''):
+	# TODO -> Reorder messages so that older messages float up instead of down
+	# TODO -> Account for message overflow
+	# TODO -> Log messages to save/log file
 	# TODO -> Utilize type for different colors of messages
 	var chatLog = get_node("/root/Hud/Log/Messages")
 	var newMessage = messageScene.instantiate()
-	var messageLabel = newMessage.getLabel()
+	var messageLabel: Label = newMessage.getLabel()
+	
+	if FONT_COLORS.has(type):
+		messageLabel.add_theme_color_override("font_color", FONT_COLORS[type])
 	
 	messageLabel.text = message
 	
