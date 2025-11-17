@@ -47,8 +47,15 @@ func initialize():
 	}
 
 
-func combat(attacker, attack, receiver):
+func combat(attacker, attack: Dictionary, receiver):
 	receiver.getAttacked(attacker.stats['name'], attack)
+
+
+func checkForDeaths():
+	var monsters = get_tree().get_nodes_in_group('MONSTER')
+	
+	for mob in monsters:
+		mob.checkIfDead()
 
 
 func moveMonsters():
@@ -60,8 +67,6 @@ func moveMonsters():
 
 
 func sendMessage(message: String, type: String = ''):
-	# TODO -> Reorder messages so that older messages float up instead of down
-	# TODO -> Account for message overflow
 	# TODO -> Log messages to save/log file
 	# TODO -> Utilize type for different colors of messages
 	var chatLog = get_node("/root/Hud/Log/ScrollContainer/Messages")

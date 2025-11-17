@@ -20,11 +20,10 @@ const CHEST_COUNT := 3
 
 var noise: Noise
 
-# TODO -> Combat
+# TODO -> Ability for player to hit monsters
 # TODO -> Game over
 # TODO -> Monster AI
 
-# TODO -> Adventure log chat box
 # TODO -> Floating combat numbers/text
 # TODO -> Combat sounds
 
@@ -47,8 +46,6 @@ var noise: Noise
 
 # READABILITY
 # TODO -> Create struct for tilemap coordinates and source ids
-
-# BUG -> Chat log is stacking messages on top of each other
 
 func _ready() -> void:
 	newGame()

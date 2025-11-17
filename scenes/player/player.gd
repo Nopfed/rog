@@ -18,7 +18,6 @@ const inputs = {
 
 func _ready() -> void:
 	Global.playerRef = self
-	
 
 
 func _input(event):
@@ -34,25 +33,52 @@ func move(dir):
 	if !ray.is_colliding():
 		position += inputs[dir] * tileSize
 		Global.stepCount += 1
+	else:
+		var collider = ray.get_collider()
+		
+		if collider.is_in_group('MONSTER'):
+			Global.combat(self, attack(), collider)
+	Global.checkForDeaths()
 	Global.moveMonsters()
 
 
-func getAttacked(attacker: String, attack: Dictionary):
-	# TODO -> Account for different types of damage against resistances
+func attack():
+	# TODO -> Pull stats from player stats
 	
-	if attack.attackRoll == 20 \
-	or !(attack.attackRoll < Global.player.armorClass):
-		Global.player.hitpoints -= attack.damageRoll
+	var type = 'physical'
+	var accuracy = randi_range(1, 20)
+	var damageRoll: int
+	
+	if accuracy == 20:
+		damageRoll = randi_range(1, 4) * 2
+	else: damageRoll = randi_range(1, 4)
+	
+	return {
+		'type': type,
+		'attackRoll': accuracy,
+		'damageRoll': damageRoll
+	}
+
+
+func getAttacked(attacker: String, incomingAttack: Dictionary):
+	# TODO -> Account for different types of damage against resistances
+	# TODO -> More verbose message system that pulls from dictionary/list
+	
+	if incomingAttack.attackRoll == 20 \
+	or !(incomingAttack.attackRoll < Global.player.armorClass):
+		Global.player.hitpoints -= incomingAttack.damageRoll
 		
-		if attack.attackRoll == 20:
+		if incomingAttack.attackRoll == 20:
 			Global.sendMessage(
 				'The ' + attacker + 'CRITS for ' +\
-				str(attack.damageRoll) + ' damage.'
+				str(incomingAttack.damageRoll) + ' damage.',
+				'physical'
 			)
 		else:
 			Global.sendMessage(
 				'The ' + attacker + ' attacks for ' +\
-				str(attack.damageRoll) + ' damage.'
+				str(incomingAttack.damageRoll) + ' damage.',
+				'physical'
 			)
 	else:
 		Global.sendMessage('The ' + attacker + ' misses.')

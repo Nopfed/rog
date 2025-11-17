@@ -11,6 +11,7 @@ var inRangeOfPlayer := false
 var sleeping := false
 var resting := false
 var seenByPlayer: = false
+var lastHitBy
 
 
 # TODO -> Inventory
@@ -18,10 +19,12 @@ var seenByPlayer: = false
 # TODO -> Combat stats
 # TODO -> Combat logic based on intelligence stat
 # TODO -> Hearing trigger
-# TODO -> Sight trigger
 # TODO -> Flip sprite and sight cone based on direction moved (left or right)
-# TODO -> Object permanence based on intelligence
+# TODO -> Search mode
+# TODO -> Sleep mode
 # TODO -> drop a corpse object on ground on death
+# TODO -> Monster name changes based on player's interaction with it
+# e.g. a rat becomes Deft Rat if it's hard to hit
 # TODO -> For ranged attacking mobs, they need an extra ranged collider check to
 #	determine if they can attack from their current distance if they can see an
 #	enemy
@@ -33,6 +36,7 @@ func _ready() -> void:
 
 func initialize():
 	# TODO -> Dynamic monster data from bestiary
+	
 	stats = Bestiary.rat
 
 
@@ -41,14 +45,15 @@ func getPlayerRef():
 
 
 func move():
-	var directionToMove: Vector2
-	
 	# TODO -> Logic for fleeing from combat if scaredy cat and health is low
-	#if stats['hitpoints'] < stats['maxHitpoints']
+	
+	# BUG -> Monsters only move towards player if player is orthogonal to them
+	# BUG -> Monsters are 'in range of player' even after player moves away
+	
+	var directionToMove: Vector2
 	
 	getPlayerRef()
 	
-	# BUG -> Monsters only move towards player if player is orthogonal to them
 	if canSeePlayer:
 		directionToMove = Vector2i(position.direction_to(playerRef.position))
 	else:
@@ -68,9 +73,9 @@ func move():
 	$Sight.look_at(to_global(ray.target_position) + lookAtOffset)
 	
 	if inRangeOfPlayer:
-		var attack = getAttack()
+		var _attack = attack()
 		
-		Global.combat(self, attack, playerRef)
+		Global.combat(self, _attack, playerRef)
 	else:
 		if !ray.is_colliding():
 			inRangeOfPlayer = false
@@ -78,26 +83,64 @@ func move():
 		elif ray.is_colliding() and ray.get_collider().is_in_group('PLAYER'):
 			inRangeOfPlayer = true
 			
-			var attack = getAttack()
+			var _attack = attack()
 			
-			Global.combat(self, attack, playerRef)
+			Global.combat(self, _attack, playerRef)
 
 
-func getAttack():
+func attack():
 	# TODO -> Pull this data dynamically from bestiary on monster init
 	var type = 'physical'
-	var attackRoll = randi_range(1, 20)
+	var accuracy = randi_range(1, 20)
 	var damageRoll: int
 	
-	if attackRoll == 20:
+	if accuracy == 20:
 		damageRoll = randi_range(1, 4) * 2
 	else: damageRoll = randi_range(1, 4)
 	
 	return {
 		'type': type,
-		'attackRoll': attackRoll,
+		'attackRoll': accuracy,
 		'damageRoll': damageRoll
 	}
+
+
+func getAttacked(attacker: String, incomingAttack: Dictionary):
+	# TODO -> Account for different types of damage against resistances
+	# TODO -> More verbose message system that pulls from dictionary/list
+	# TODO -> Only show chat message if player attacked the mob
+	
+	if incomingAttack.attackRoll == 20 \
+	or !(incomingAttack.attackRoll < Global.player.armorClass):
+		Global.player.hitpoints -= incomingAttack.damageRoll
+		
+		lastHitBy = attacker
+		
+		if incomingAttack.attackRoll == 20:
+			Global.sendMessage(
+				'The ' + attacker + 'CRITS for ' +\
+				str(incomingAttack.damageRoll) + ' damage.',
+				'physical'
+			)
+		else:
+			Global.sendMessage(
+				'The ' + attacker + ' attacks for ' +\
+				str(incomingAttack.damageRoll) + ' damage.',
+				'physical'
+			)
+	else:
+		Global.sendMessage('The ' + attacker + ' misses.')
+
+
+func checkIfDead():
+	if !(stats['hitpoints'] > 0): die()
+
+
+func die():
+	if lastHitBy.is_in_group('PLAYER'):
+		# TODO -> Give player exp from global script
+		pass
+	queue_free()
 
 
 func _on_sight_body_entered(body: Node2D) -> void:
