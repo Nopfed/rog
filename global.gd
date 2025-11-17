@@ -3,7 +3,11 @@ extends Node
 @onready var messageScene = preload("res://scenes/message/message.tscn")
 
 const FONT_COLORS = {
-	'hitPlayer': Color(0.5, 0.1, 0.1)
+	'physical': Color(0.5, 0.1, 0.1),
+	'arcane': Color(0.5, 0.1, 0.5),
+	'water': Color(0.1, 0.1, 0.5),
+	'fire': Color(0.7, 0.2, 0.1),
+	'ice': Color(0.1, 0.4, 0.9),
 }
 
 var player := {
@@ -60,7 +64,8 @@ func sendMessage(message: String, type: String = ''):
 	# TODO -> Account for message overflow
 	# TODO -> Log messages to save/log file
 	# TODO -> Utilize type for different colors of messages
-	var chatLog = get_node("/root/Hud/Log/Messages")
+	var chatLog = get_node("/root/Hud/Log/ScrollContainer/Messages")
+	var chatScroll: ScrollContainer = chatLog.get_parent()
 	var newMessage = messageScene.instantiate()
 	var messageLabel: Label = newMessage.getLabel()
 	
@@ -70,3 +75,6 @@ func sendMessage(message: String, type: String = ''):
 	messageLabel.text = message
 	
 	chatLog.add_child(newMessage)
+	
+	await get_tree().process_frame
+	chatScroll.scroll_vertical = int(chatScroll.get_v_scroll_bar().max_value)

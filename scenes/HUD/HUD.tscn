@@ -120,5 +120,10 @@ offset_right = 404.0
 offset_bottom = 706.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_wqij7")
 
-[node name="Messages" type="VBoxContainer" parent="Log"]
+[node name="ScrollContainer" type="ScrollContainer" parent="Log"]
 layout_mode = 2
+vertical_scroll_mode = 3
+
+[node name="Messages" type="VBoxContainer" parent="Log/ScrollContainer"]
+layout_mode = 2
+alignment = 2
