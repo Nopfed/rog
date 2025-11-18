@@ -23,7 +23,7 @@ var player := {
 	'dexterity': 10,
 	'intelligence': 10
 }
-
+var currentBiome := 'cave'
 var stepCount: int
 var canExitLevel: bool
 var playerRef: CharacterBody2D
@@ -83,3 +83,18 @@ func sendMessage(message: String, type: String = ''):
 	
 	await get_tree().process_frame
 	chatScroll.scroll_vertical = int(chatScroll.get_v_scroll_bar().max_value)
+
+
+func getRandomDictItem(dict: Dictionary, returnKey = false):
+	# Get all keys as an array
+	var keys = dict.keys()
+	
+	# Generate a random index
+	var random_index = randi() % dict.size()
+	
+	# [RandomItem, Key]
+	if returnKey:
+		return [dict[keys[random_index]], keys[random_index]]
+	
+	# RandomItem
+	return dict[keys[random_index]]

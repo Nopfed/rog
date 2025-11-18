@@ -35,9 +35,7 @@ func _ready() -> void:
 
 
 func initialize():
-	# TODO -> Dynamic monster data from bestiary
-	
-	stats = Bestiary.rat
+	stats = Bestiary.getRandomMonster(Global.currentBiome)
 
 
 func getPlayerRef():
@@ -48,7 +46,6 @@ func move():
 	# TODO -> Logic for fleeing from combat if scaredy cat and health is low
 	
 	# BUG -> Monsters only move towards player if player is orthogonal to them
-	# BUG -> Monsters are 'in range of player' even after player moves away
 	
 	var directionToMove: Vector2
 	
@@ -72,20 +69,15 @@ func move():
 	
 	$Sight.look_at(to_global(ray.target_position) + lookAtOffset)
 	
+	inRangeOfPlayer = \
+		ray.is_colliding() and ray.get_collider().is_in_group('PLAYER')
+	
 	if inRangeOfPlayer:
 		var _attack = attack()
 		
 		Global.combat(self, _attack, playerRef)
-	else:
-		if !ray.is_colliding():
-			inRangeOfPlayer = false
-			position += directionToMove * TILE_SIZE
-		elif ray.is_colliding() and ray.get_collider().is_in_group('PLAYER'):
-			inRangeOfPlayer = true
-			
-			var _attack = attack()
-			
-			Global.combat(self, _attack, playerRef)
+	elif !ray.is_colliding():
+		position += directionToMove * TILE_SIZE
 
 
 func attack():
@@ -128,6 +120,7 @@ func getAttacked(attacker: String, incomingAttack: Dictionary):
 				str(incomingAttack.damageRoll) + ' damage.',
 				'physical'
 			)
+		checkIfDead()
 	else:
 		Global.sendMessage('The ' + attacker + ' misses.')
 
