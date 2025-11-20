@@ -5,7 +5,6 @@ extends Node2D
 const TILE_SIZE = 16
 
 var stats: Dictionary
-var playerRef: CharacterBody2D
 var canSeePlayer := false
 var inRangeOfPlayer := false
 var sleeping := false
@@ -35,11 +34,14 @@ func _ready() -> void:
 
 
 func initialize():
-	stats = Bestiary.getRandomMonster(Global.currentBiome)
+	stats = \
+		Bestiary.getRandomMonster(Global.currentBiome).duplicate(true)
 
 
-func getPlayerRef():
-	playerRef = Global.playerRef
+func hideOrShowHealthBar():
+	if stats.hitpoints == stats.maxHitpoints:
+		$HealthBar.hide()
+	else: $HealthBar.show()
 
 
 func move():
@@ -49,10 +51,11 @@ func move():
 	
 	var directionToMove: Vector2
 	
-	getPlayerRef()
+	hideOrShowHealthBar()
 	
 	if canSeePlayer:
-		directionToMove = Vector2i(position.direction_to(playerRef.position))
+		directionToMove = \
+			Vector2i(position.direction_to(Global.playerRef.position))
 	else:
 		if !sleeping and !resting:
 			var randomX = randi_range(-1, 1)
@@ -75,7 +78,7 @@ func move():
 	if inRangeOfPlayer:
 		var _attack = attack()
 		
-		Global.combat(self, _attack, playerRef)
+		Global.combat(stats.name, _attack, Global.playerRef)
 	elif !ray.is_colliding():
 		position += directionToMove * TILE_SIZE
 
@@ -120,6 +123,8 @@ func getAttacked(attacker: String, incomingAttack: Dictionary):
 				str(incomingAttack.damageRoll) + ' damage.',
 				'physical'
 			)
+		
+		stats['hitpoints'] -= incomingAttack.damageRoll
 		checkIfDead()
 	else:
 		Global.sendMessage('The ' + attacker + ' misses.')
@@ -130,9 +135,10 @@ func checkIfDead():
 
 
 func die():
-	if lastHitBy.is_in_group('PLAYER'):
-		# TODO -> Give player exp from global script
-		pass
+	# TODO -> Only give exp if death was caused by player
+	#if lastHitBy.stats.name == 'player':
+	
+	Global.givePlayerExp(stats.duplicate(true))
 	queue_free()
 
 

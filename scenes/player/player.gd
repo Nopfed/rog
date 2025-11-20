@@ -15,6 +15,8 @@ const inputs = {
 	'wait': Vector2(0, 0)
 }
 
+var stats = Global.player
+
 
 func _ready() -> void:
 	Global.playerRef = self
@@ -36,13 +38,19 @@ func move(dir):
 	else:
 		var collider = ray.get_collider()
 		
-		if collider.is_in_group('MONSTER'):
-			Global.combat(self, attack(), collider)
+		# BUG -> Collider is not being detected as a monster
+		# TODO -> A more elegant way to detect monster
+		#	maybe just change monster tree structure so that static body is root
+		
+		if collider.is_in_group('MONSTER') \
+		or collider.get_parent().is_in_group('MONSTER'):
+			attack(collider)
+		
 	Global.checkForDeaths()
 	Global.moveMonsters()
 
 
-func attack():
+func attack(target):
 	# TODO -> Pull stats from player stats
 	
 	var type = 'physical'
@@ -53,11 +61,11 @@ func attack():
 		damageRoll = randi_range(1, 4) * 2
 	else: damageRoll = randi_range(1, 4)
 	
-	return {
-		'type': type,
-		'attackRoll': accuracy,
-		'damageRoll': damageRoll
-	}
+	Global.combat(
+		'You', 
+		{ 'type': type, 'attackRoll': accuracy, 'damageRoll': damageRoll },
+		target
+	)
 
 
 func getAttacked(attacker: String, incomingAttack: Dictionary):

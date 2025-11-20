@@ -20,14 +20,14 @@ const CHEST_COUNT := 3
 
 var noise: Noise
 
-# TODO -> Ability for player to hit monsters
 # TODO -> Game over
-# TODO -> Monster AI
+# TODO -> In depth monster AI
 
 # TODO -> Floating combat numbers/text
 # TODO -> Combat sounds
 
-# TODO -> Player stats
+# TODO -> Characters regen health over time
+# TODO -> Full player stats
 # TODO -> Equippable gear
 # TODO -> Loot
 # TODO -> Loot chests

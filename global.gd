@@ -47,8 +47,8 @@ func initialize():
 	}
 
 
-func combat(attacker, attack: Dictionary, receiver):
-	receiver.getAttacked(attacker.stats['name'], attack)
+func combat(attacker: String, attack: Dictionary, receiver):
+	receiver.getAttacked(attacker, attack)
 
 
 func checkForDeaths():
@@ -64,6 +64,18 @@ func moveMonsters():
 	
 	for mob in monsters:
 		mob.move()
+
+
+func givePlayerExp(monsterStats: Dictionary):
+	var experience: int
+	
+	experience = \
+		monsterStats['strength'] + \
+		monsterStats['maxHitpoints'] + \
+		monsterStats['dexterity'] + \
+		monsterStats['intelligence']
+	
+	player['experience'] += experience
 
 
 func sendMessage(message: String, type: String = ''):

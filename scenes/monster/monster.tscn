@@ -1,22 +1,22 @@
-[gd_scene load_steps=5 format=3 uid="uid://c87j0b1f7nfkg"]
+[gd_scene load_steps=7 format=3 uid="uid://c87j0b1f7nfkg"]
 
 [ext_resource type="Script" uid="uid://doseumqh3yg64" path="res://scenes/monster/monster.gd" id="1_1uvy5"]
 [ext_resource type="Texture2D" uid="uid://dv3q18h0bcdno" path="res://rat.png" id="1_rk3jy"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_1uvy5"]
-size = Vector2(12, 12)
-
 [sub_resource type="CircleShape2D" id="CircleShape2D_1uvy5"]
 radius = 64.0
 
-[node name="Monster" type="Node2D" groups=["MONSTER"]]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1uvy5"]
+bg_color = Color(0.54901963, 0.047058824, 0.047058824, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7qtxx"]
+bg_color = Color(0.047058824, 0.54901963, 0.047058824, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1uvy5"]
+size = Vector2(12, 12)
+
+[node name="Monster" type="StaticBody2D" groups=["MONSTER"]]
 script = ExtResource("1_1uvy5")
-
-[node name="StaticBody2D" type="StaticBody2D" parent="."]
-position = Vector2(8, 8)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
-shape = SubResource("RectangleShape2D_1uvy5")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1
@@ -44,6 +44,21 @@ metadata/_edit_lock_ = true
 polygon = PackedVector2Array(0, 0, 16, 64, 128, 80, 128, -80, 16, -64)
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(8, 8)
+
+[node name="HealthBar" type="ProgressBar" parent="."]
+visible = false
+custom_minimum_size = Vector2(16, 1)
+offset_right = 16.0
+offset_bottom = 1.0
+theme_override_styles/background = SubResource("StyleBoxFlat_1uvy5")
+theme_override_styles/fill = SubResource("StyleBoxFlat_7qtxx")
+value = 50.0
+show_percentage = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(8, 8)
+shape = SubResource("RectangleShape2D_1uvy5")
 
 [connection signal="body_entered" from="Sight" to="." method="_on_sight_body_entered"]
 [connection signal="body_exited" from="Sight" to="." method="_on_sight_body_exited"]
