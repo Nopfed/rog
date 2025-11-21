@@ -30,6 +30,7 @@ var playerRef: CharacterBody2D
 
 
 func initialize():
+	randomize()
 	stepCount = 0
 	canExitLevel = false
 	player = {
@@ -45,6 +46,17 @@ func initialize():
 		'dexterity': 10,
 		'intelligence': 10
 	}
+
+
+func checkIfGameOver():
+	if !(player.hitpoints > 0):
+		gameOver()
+
+
+func gameOver():
+	# TODO -> Probably don't have to change scenes as it appears to be throwing
+	# errors on input handling functions when we do this
+	get_tree().change_scene_to_file("res://scenes/game over/game_over.tscn")
 
 
 func combat(attacker: String, attack: Dictionary, receiver):

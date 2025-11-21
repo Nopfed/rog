@@ -48,6 +48,7 @@ func move(dir):
 		
 	Global.checkForDeaths()
 	Global.moveMonsters()
+	Global.checkIfGameOver()
 
 
 func attack(target):
