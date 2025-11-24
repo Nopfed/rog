@@ -9,6 +9,22 @@ const FONT_COLORS = {
 	'fire': Color(0.7, 0.2, 0.1),
 	'ice': Color(0.1, 0.4, 0.9),
 }
+const ITEM_TYPES: Array[String] = [
+	# TODO -> Weighted system so that everything doesn't have equal chance
+	'potion',
+	'weapon',
+	'armor',
+	'gold',
+	'scroll'
+]
+const RARITIES: Array[String] = [
+	# TODO -> Weighted system so that everything doesn't have equal chance
+	'common',
+	'uncommon',
+	'rare',
+	'epic',
+	'unique'
+]
 
 var player := {
 	'hitpoints': 10,

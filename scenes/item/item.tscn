@@ -1,9 +1,20 @@
-[gd_scene format=3 uid="uid://bcgg2qxst6vol"]
+[gd_scene load_steps=4 format=3 uid="uid://bcgg2qxst6vol"]
+
+[ext_resource type="Script" uid="uid://bo0hlnybumexj" path="res://scenes/item/item.gd" id="1_vcqat"]
+[ext_resource type="Texture2D" uid="uid://fkf604yl6rii" path="res://sword_sprite.png" id="2_vijbe"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vcqat"]
 
 [node name="Item" type="Node2D"]
+script = ExtResource("1_vcqat")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("2_vijbe")
+offset = Vector2(8, 8)
 
 [node name="Area2D" type="Area2D" parent="."]
+position = Vector2(8, 8)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_vcqat")
