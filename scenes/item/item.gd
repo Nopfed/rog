@@ -6,12 +6,18 @@ var rarity: String
 
 func _ready() -> void:
 	rollType()
-	if type != 'gold': rollRarity()
+	if type == 'armor' or type == 'weapon':
+		rollRarity()
+		rollStats()
 
 
 func rollType():
-	type = Global.ITEM_TYPES.pick_random()
+	type = Armory.ITEM_TYPES.pick_random()
 
 
 func rollRarity():
-	rarity = Global.RARITIES.pick_random()
+	rarity = Armory.RARITIES.pick_random()
+
+
+func rollStats():
+	pass
