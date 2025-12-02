@@ -8,89 +8,132 @@ const ITEM_TYPES: Array[String] = [
 	'scroll'
 ]
 const WEAPONS = {
-	'rapier': {
-		'damage': [2, 4],
-		'attributes': ['dexterity', 'charisma']
+	'oneHand': {
+		'rapier': {
+			'damage': [2, 4],
+			'attributes': ['dexterity', 'charisma']
+		},
+		'scimitar': {
+			'damage': [3, 6],
+			'attributes': ['constitution', 'strength', 'charisma']
+		},
+		'sword': {
+			'damage': [2, 5],
+			'attributes': [
+				'intelligence',
+				'strength',
+				'constitiution',
+				'dexterity',
+				'wisdom',
+				'charisma'
+			]
+		},
+		'shortsword': {
+			'damage': [2, 4],
+			'attributes': [
+				'intelligence',
+				'strength',
+				'constitiution',
+				'dexterity',
+				'wisdom',
+				'charisma'
+			]
+		},
+		'machete': {
+			'damage': [3, 5],
+			'attributes': ['strength', 'dexterity']
+		},
+		'blade': {
+			'damage': [3, 4],
+			'attributes': [
+				'strength',
+				'constitiution',
+				'dexterity',
+				'wisdom',
+				'charisma'
+			]
+		},
+		'sabre': {
+			'damage': [2, 5],
+			'attributes': [
+				'strength',
+				'constitiution',
+				'dexterity',
+				'charisma'
+			]
+		},
+		'gladius': {
+			'damage': [3, 5],
+			'attributes': [
+				'strength',
+				'constitiution',
+				'dexterity',
+				'wisdom',
+				'charisma'
+			]
+		},
+		'broadsword': {
+			'damage': [3, 5],
+			'attributes': [
+				'strength',
+				'constitiution',
+				'dexterity',
+				'wisdom',
+				'charisma'
+			]
+		},
+		'cutlass': {
+			'damage': [3, 5],
+			'attributes': [
+				'intelligence',
+				'strength',
+				'constitiution',
+				'dexterity',
+				'wisdom',
+				'charisma'
+			]
+		},
+		'axe': {
+			'damage': [3, 7],
+			'attributes': [
+				'strength',
+				'dexterity'
+			]
+		},
+		'mace': {
+			'damage': [4, 6],
+			'attributes': [
+				'strength',
+				'wisdom',
+				'constitution'
+			]
+		},
 	},
-	'scimitar': {
-		'damage': [3, 6],
-		'attributes': ['constitution', 'strength', 'charisma']
-	},
-	'sword': {
-		'damage': [2, 5],
-		'attributes': [
-			'intelligence',
-			'strength',
-			'constitiution',
-			'dexterity',
-			'wisdom',
-			'charisma'
-		]
-	},
-	'shortsword': {
-		'damage': [2, 4],
-		'attributes': [
-			'intelligence',
-			'strength',
-			'constitiution',
-			'dexterity',
-			'wisdom',
-			'charisma'
-		]
-	},
-	'machete': {
-		'damage': [3, 5],
-		'attributes': ['strength', 'dexterity']
-	},
-	'blade': {
-		'damage': [3, 4],
-		'attributes': [
-			'strength',
-			'constitiution',
-			'dexterity',
-			'wisdom',
-			'charisma'
-		]
-	},
-	'sabre': {
-		'damage': [2, 5],
-		'attributes': [
-			'strength',
-			'constitiution',
-			'dexterity',
-			'charisma'
-		]
-	},
-	'gladius': {
-		'damage': [3, 5],
-		'attributes': [
-			'strength',
-			'constitiution',
-			'dexterity',
-			'wisdom',
-			'charisma'
-		]
-	},
-	'broadsword': {
-		'damage': [3, 5],
-		'attributes': [
-			'strength',
-			'constitiution',
-			'dexterity',
-			'wisdom',
-			'charisma'
-		]
-	},
-	'cutlass': {
-		'damage': [3, 5],
-		'attributes': [
-			'intelligence',
-			'strength',
-			'constitiution',
-			'dexterity',
-			'wisdom',
-			'charisma'
-		]
+	'twoHand': {
+		'sword': {
+			'damage': [4, 10],
+			'attributes': [
+				'strength',
+				'constitiution',
+				'wisdom',
+				'charisma'
+			]
+		},
+		'axe': {
+			'damage': [6, 12],
+			'attributes': [
+				'strength',
+				'dexterity'
+			]
+		},
+		'mace': {
+			'damage': [5, 11],
+			'attributes': [
+				'strength',
+				'constitiution',
+				'wisdom'
+			]
+		},
 	}
 }
 const ARMOR = {
@@ -183,6 +226,42 @@ const ARMOR = {
 		}
 	}
 }
+# TODO -> Break out stats off database items into a lookup table
+# TODO -> Unique item table
+
+
+func getItem(type: String):
+	if type == 'armor':
+		# TODO -> Check to see if this actually returns a value
+		var armorType: String = Global.getRandomDictItem(ARMOR, true)[1]
+		var armorMaterial: String = \
+			Global.getRandomDictItem(
+				ARMOR[armorType].material.duplicate(true),
+				true
+			)[1]
+		var armorFashion: String = \
+			Global.getRandomDictItem(
+				ARMOR[armorType].fashion.duplicate(true),
+				true
+			)[1]
+		
+		# TODO -> Return random stats as well
+		return {
+			'type': armorType,
+			'material': armorMaterial,
+			'fashion': armorFashion
+		}
+	elif type == 'weapon':
+		var weaponHand: String = Global.getRandomDictItem(WEAPONS, true)[1]
+		var weaponType: String = \
+			Global.getRandomDictItem(WEAPONS[weaponHand], true)[1]
+		# TODO -> Weapon materials
+		# TODO -> Weapon stats
+		
+		return {
+			'hand': weaponHand,
+			'type': weaponType
+		}
 
 
 func getRarity():

@@ -17,8 +17,6 @@ func rollType():
 
 
 func rollStats():
-	if type == 'armor':
-		
 	# TODO -> Stats
 	# TODO -> Icon
 	# TODO -> Name

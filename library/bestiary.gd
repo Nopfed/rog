@@ -1,5 +1,8 @@
 extends Node
 
+# TODO -> Monster sprite references
+# TODO -> Add more biomes
+# TODO -> Add more monsters
 
 const BIOMES = {
 	'cave': {
