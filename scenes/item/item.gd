@@ -8,7 +8,7 @@ var stats: Dictionary
 func _ready() -> void:
 	rollType()
 	if type == 'armor' or type == 'weapon':
-		rarity = Armory.getRarity()
+		#rarity = Armory.getRarity()
 		rollStats()
 
 

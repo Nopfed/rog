@@ -226,11 +226,18 @@ const ARMOR = {
 		}
 	}
 }
-# TODO -> Break out stats off database items into a lookup table
+const STAT_ROLLS = {
+	'uncommon': { 'min': 1, 'max': 4 },
+	'rare': { 'min': 3, 'max': 10 }
+}
+# TODO -> Break out stats off database items into a lookup table in order to
+#	homogenize armor and weapon stats based on material
 # TODO -> Unique item table
 
 
 func getItem(type: String):
+	var rarity = getRarity()
+	
 	if type == 'armor':
 		# TODO -> Check to see if this actually returns a value
 		var armorType: String = Global.getRandomDictItem(ARMOR, true)[1]
@@ -245,11 +252,67 @@ func getItem(type: String):
 				true
 			)[1]
 		
-		# TODO -> Return random stats as well
+		var stats: Dictionary = {
+			'armor': 
+				ARMOR[armorType].fashion[armorFashion].armorValue + \
+				ARMOR[armorType].material[armorMaterial].armorValue,
+		}
+		
+		if rarity != 'common':
+			var materialAttributes: Dictionary = \
+				ARMOR[armorType].material[armorMaterial].attributes
+			var possibleAttributes: Array
+			
+			for attribute in materialAttributes:
+				possibleAttributes.append(attribute)
+			
+			if rarity == 'uncommon':
+				possibleAttributes.shuffle()
+				stats.get_or_add(
+					possibleAttributes.pop_back(),
+					randi_range(
+						STAT_ROLLS.uncommon.min,
+						STAT_ROLLS.uncommon.max
+					)
+				)
+				if randi_range(0, 1):
+					stats.get_or_add(
+						possibleAttributes.pop_back(),
+						randi_range(
+							STAT_ROLLS.uncommon.min,
+							STAT_ROLLS.uncommon.max
+						)
+					)
+			elif rarity == 'rare':
+				possibleAttributes.shuffle()
+				stats.get_or_add(
+					possibleAttributes.pop_back(),
+					randi_range(
+						STAT_ROLLS.rare.min,
+						STAT_ROLLS.rare.max
+					)
+				)
+				if randi_range(0, 1):
+					stats.get_or_add(
+						possibleAttributes.pop_back(),
+						randi_range(
+							STAT_ROLLS.rare.min,
+							STAT_ROLLS.rare.max
+						)
+					)
+				if randi_range(0, 1):
+					stats.get_or_add(
+						possibleAttributes.pop_back(),
+						randi_range(
+							STAT_ROLLS.rare.min,
+							STAT_ROLLS.rare.max
+						)
+					)
 		return {
 			'type': armorType,
 			'material': armorMaterial,
-			'fashion': armorFashion
+			'fashion': armorFashion,
+			'stats': stats
 		}
 	elif type == 'weapon':
 		var weaponHand: String = Global.getRandomDictItem(WEAPONS, true)[1]
