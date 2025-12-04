@@ -5,7 +5,6 @@ extends Node2D
 
 var canOpen := false
 
-# TODO -> Change sprite to open chest after opened
 
 func _unhandled_key_input(event: InputEvent) -> void:
 	if event.is_action_released('interact') and canOpen:
@@ -13,13 +12,17 @@ func _unhandled_key_input(event: InputEvent) -> void:
 
 
 func dropLoot():
-	# TODO -> Implement item generation function
-	#var randomLoot = Armory.getItem()
-	#var newItem = itemScene.instantiate()
-	#
-	#newItem.stats = randomLoot
-	#
-	#add_child(newItem)
+	# TODO -> Get sprite based on item type
+	
+	var newItem = itemScene.instantiate()
+	var randomLoot = Armory.getItem()
+	
+	print(randomLoot)
+	
+	if randomLoot:
+		newItem.stats = randomLoot
+	
+	add_child(newItem)
 	
 	# TODO -> Open chest noise
 	$Sprite2D.texture = openedSprite

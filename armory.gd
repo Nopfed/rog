@@ -235,11 +235,16 @@ const STAT_ROLLS = {
 # TODO -> Unique item table
 
 
-func getItem(type: String):
+func getItem():
+	# TODO -> Item names based on attributes
+	# TODO -> Different materials should be more rare than others
+	# TODO -> Camel case capitlization for item names
+	
 	var rarity = getRarity()
+	#var type = ITEM_TYPES.pick_random()
+	var type = 'armor'
 	
 	if type == 'armor':
-		# TODO -> Check to see if this actually returns a value
 		var armorType: String = Global.getRandomDictItem(ARMOR, true)[1]
 		var armorMaterial: String = \
 			Global.getRandomDictItem(
@@ -259,17 +264,13 @@ func getItem(type: String):
 		}
 		
 		if rarity != 'common':
-			var materialAttributes: Dictionary = \
+			var materialAttributes: Array = \
 				ARMOR[armorType].material[armorMaterial].attributes
-			var possibleAttributes: Array
-			
-			for attribute in materialAttributes:
-				possibleAttributes.append(attribute)
 			
 			if rarity == 'uncommon':
-				possibleAttributes.shuffle()
+				materialAttributes.shuffle()
 				stats.get_or_add(
-					possibleAttributes.pop_back(),
+					materialAttributes.pop_back(),
 					randi_range(
 						STAT_ROLLS.uncommon.min,
 						STAT_ROLLS.uncommon.max
@@ -277,16 +278,16 @@ func getItem(type: String):
 				)
 				if randi_range(0, 1):
 					stats.get_or_add(
-						possibleAttributes.pop_back(),
+						materialAttributes.pop_back(),
 						randi_range(
 							STAT_ROLLS.uncommon.min,
 							STAT_ROLLS.uncommon.max
 						)
 					)
 			elif rarity == 'rare':
-				possibleAttributes.shuffle()
+				materialAttributes.shuffle()
 				stats.get_or_add(
-					possibleAttributes.pop_back(),
+					materialAttributes.pop_back(),
 					randi_range(
 						STAT_ROLLS.rare.min,
 						STAT_ROLLS.rare.max
@@ -294,7 +295,7 @@ func getItem(type: String):
 				)
 				if randi_range(0, 1):
 					stats.get_or_add(
-						possibleAttributes.pop_back(),
+						materialAttributes.pop_back(),
 						randi_range(
 							STAT_ROLLS.rare.min,
 							STAT_ROLLS.rare.max
@@ -302,17 +303,18 @@ func getItem(type: String):
 					)
 				if randi_range(0, 1):
 					stats.get_or_add(
-						possibleAttributes.pop_back(),
+						materialAttributes.pop_back(),
 						randi_range(
 							STAT_ROLLS.rare.min,
 							STAT_ROLLS.rare.max
 						)
 					)
 		return {
+			'name': armorMaterial + ' ' + armorFashion,
 			'type': armorType,
 			'material': armorMaterial,
 			'fashion': armorFashion,
-			'stats': stats
+			'attributes': stats
 		}
 	elif type == 'weapon':
 		var weaponHand: String = Global.getRandomDictItem(WEAPONS, true)[1]
