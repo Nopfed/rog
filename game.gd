@@ -20,7 +20,8 @@ const CHEST_COUNT := 3
 
 var noise: Noise
 
-# TODO -> Game over
+# TODO -> HUD Display for items on ground underneath player
+
 # TODO -> In depth monster AI
 
 # TODO -> Floating combat numbers/text
@@ -29,8 +30,6 @@ var noise: Noise
 # TODO -> Characters regen health over time
 # TODO -> Full player stats
 # TODO -> Equippable gear
-# TODO -> Loot
-# TODO -> Loot chests
 
 # TODO -> Ability to travel down floors
 
@@ -39,7 +38,6 @@ var noise: Noise
 # TODO -> Fog of war
 # TODO -> Diggable dirt tiles
 # TODO -> Dirt layer
-# TODO -> Loot filter
 
 # SILLY STUFF
 # TODO -> Allow players to replace textures and sounds in the game

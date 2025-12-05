@@ -226,13 +226,64 @@ const ARMOR = {
 		}
 	}
 }
+const WEAPON_MATERIALS = {
+	'steel': {
+		'armorValue': 3,
+		'attributes': [
+			'charisma',
+			'constitution',
+			'strength'
+		]
+	},
+	'iron': {
+		'armorValue': 3,
+		'attributes': [
+			'constitution',
+			'strength'
+		]
+	},
+	'bronze': {
+		'armorValue': 3,
+		'attributes': [
+			'charisma',
+			'constitution',
+			'wisdom',
+			'strength'
+		]
+	},
+	'copper': {
+		'armorValue': 2,
+		'attributes': [
+			'constitution',
+			'strength',
+			'wisdom'
+		]
+	},
+	'silver': {
+		'armorValue': 2,
+		'attributes': [
+			'charisma',
+			'constitution',
+			'wisdom',
+			'intelligence'
+		]
+	},
+	'gold': {
+		'armorValue': 2,
+		'attributes': [
+			'dexterity',
+			'charisma',
+			'constitution',
+			'strength',
+			'wisdom',
+			'intelligence'
+		]
+	}
+}
 const STAT_ROLLS = {
 	'uncommon': { 'min': 1, 'max': 4 },
 	'rare': { 'min': 3, 'max': 10 }
 }
-# TODO -> Break out stats off database items into a lookup table in order to
-#	homogenize armor and weapon stats based on material
-# TODO -> Unique item table
 
 
 func getItem():
@@ -256,17 +307,46 @@ func getItem():
 				ARMOR[armorType].fashion.duplicate(true),
 				true
 			)[1]
+		var materialAttributes: Array[String] = \
+			ARMOR[armorType].material[armorMaterial].attributes
 		
-		var stats: Dictionary = {
-			'armor': 
-				ARMOR[armorType].fashion[armorFashion].armorValue + \
-				ARMOR[armorType].material[armorMaterial].armorValue,
+		return {
+			'name': armorMaterial + ' ' + armorFashion,
+			'rarity': rarity,
+			'type': armorType,
+			'material': armorMaterial,
+			'fashion': armorFashion,
+			'stats': {
+				'armor':
+					ARMOR[armorType].fashion[armorFashion].armorValue + \
+					ARMOR[armorType].material[armorMaterial].armorValue,
+				'attributes': getAttributes(rarity, materialAttributes)
+			}
 		}
+	elif type == 'weapon':
+		var weaponHand: String = Global.getRandomDictItem(WEAPONS, true)[1]
+		var weaponType: String = \
+			Global.getRandomDictItem(WEAPONS[weaponHand], true)[1]
+		var weaponMaterial: String = \
+			Global.getRandomDictItem(WEAPON_MATERIALS, true)[1]
+		var materialAttributes: Array[String] = \
+			WEAPONS[weaponType].material[weaponMaterial].attributes
+		# TODO -> Add weapon damage to stats
 		
+		return {
+			'name': weaponMaterial + ' ' + weaponType,
+			'rarity': rarity,
+			'hand': weaponHand,
+			'type': weaponType,
+			'material': weaponMaterial,
+			'stats': {
+				'attributes': getAttributes(rarity, materialAttributes)
+			}
+		}
+
+
+func getAttributes(rarity: String, materialAttributes: Array[String]):
 		if rarity != 'common':
-			var materialAttributes: Array = \
-				ARMOR[armorType].material[armorMaterial].attributes
-			
 			if rarity == 'uncommon':
 				materialAttributes.shuffle()
 				stats.get_or_add(
@@ -301,6 +381,7 @@ func getItem():
 							STAT_ROLLS.rare.max
 						)
 					)
+				# TODO -> Account for case where materialAttributes is empty
 				if randi_range(0, 1):
 					stats.get_or_add(
 						materialAttributes.pop_back(),
@@ -309,24 +390,9 @@ func getItem():
 							STAT_ROLLS.rare.max
 						)
 					)
-		return {
-			'name': armorMaterial + ' ' + armorFashion,
-			'type': armorType,
-			'material': armorMaterial,
-			'fashion': armorFashion,
-			'attributes': stats
-		}
-	elif type == 'weapon':
-		var weaponHand: String = Global.getRandomDictItem(WEAPONS, true)[1]
-		var weaponType: String = \
-			Global.getRandomDictItem(WEAPONS[weaponHand], true)[1]
-		# TODO -> Weapon materials
-		# TODO -> Weapon stats
-		
-		return {
-			'hand': weaponHand,
-			'type': weaponType
-		}
+			elif rarity == 'unique':
+				# TODO -> Unique drop table
+				pass
 
 
 func getRarity():

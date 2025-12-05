@@ -13,6 +13,7 @@ func _unhandled_key_input(event: InputEvent) -> void:
 
 func dropLoot():
 	# TODO -> Get sprite based on item type
+	# TODO -> Place item on adjacent tile
 	
 	var newItem = itemScene.instantiate()
 	var randomLoot = Armory.getItem()

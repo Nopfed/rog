@@ -16,6 +16,9 @@ const inputs = {
 }
 
 var stats = Global.player
+# TODO -> Inventory of items
+# TODO -> Input to pickup items
+# TODO
 
 
 func _ready() -> void:
