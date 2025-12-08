@@ -3,6 +3,8 @@ extends Node2D
 @onready var itemScene = preload("res://scenes/item/item.tscn")
 @onready var openedSprite = preload("res://chest_open.png")
 
+const TILE_SIZE = 16
+
 var canOpen := false
 
 
@@ -22,6 +24,8 @@ func dropLoot():
 	
 	if randomLoot:
 		newItem.stats = randomLoot
+	
+	newItem.position += Vector2(0, TILE_SIZE)
 	
 	add_child(newItem)
 	

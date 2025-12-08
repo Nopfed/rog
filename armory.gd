@@ -292,8 +292,7 @@ func getItem():
 	# TODO -> Camel case capitlization for item names
 	
 	var rarity = getRarity()
-	#var type = ITEM_TYPES.pick_random()
-	var type = 'armor'
+	var type = ITEM_TYPES.pick_random()
 	
 	if type == 'armor':
 		var armorType: String = Global.getRandomDictItem(ARMOR, true)[1]
@@ -331,7 +330,6 @@ func getItem():
 			Global.getRandomDictItem(WEAPON_MATERIALS, true)[1]
 		var materialAttributes: Array[String] = \
 			WEAPONS[weaponType].material[weaponMaterial].attributes
-		# TODO -> Add weapon damage to stats
 		
 		return {
 			'name': weaponMaterial + ' ' + weaponType,
@@ -340,15 +338,19 @@ func getItem():
 			'type': weaponType,
 			'material': weaponMaterial,
 			'stats': {
+				'damage': WEAPONS[weaponHand][weaponType].damage,
 				'attributes': getAttributes(rarity, materialAttributes)
 			}
 		}
 
 
 func getAttributes(rarity: String, materialAttributes: Array[String]):
-		if rarity != 'common':
-			if rarity == 'uncommon':
-				materialAttributes.shuffle()
+	var stats: Dictionary
+	
+	if rarity != 'common':
+		if rarity == 'uncommon':
+			materialAttributes.shuffle()
+			if !materialAttributes.is_empty():
 				stats.get_or_add(
 					materialAttributes.pop_back(),
 					randi_range(
@@ -356,7 +358,8 @@ func getAttributes(rarity: String, materialAttributes: Array[String]):
 						STAT_ROLLS.uncommon.max
 					)
 				)
-				if randi_range(0, 1):
+			if randi_range(0, 1):
+				if !materialAttributes.is_empty():
 					stats.get_or_add(
 						materialAttributes.pop_back(),
 						randi_range(
@@ -364,41 +367,47 @@ func getAttributes(rarity: String, materialAttributes: Array[String]):
 							STAT_ROLLS.uncommon.max
 						)
 					)
-			elif rarity == 'rare':
-				materialAttributes.shuffle()
+		elif rarity == 'rare':
+			materialAttributes.shuffle()
+			if !materialAttributes.is_empty():
 				stats.get_or_add(
 					materialAttributes.pop_back(),
 					randi_range(
-						STAT_ROLLS.rare.min,
-						STAT_ROLLS.rare.max
+						STAT_ROLLS.uncommon.min,
+						STAT_ROLLS.uncommon.max
 					)
 				)
-				if randi_range(0, 1):
+			if randi_range(0, 1):
+				if !materialAttributes.is_empty():
 					stats.get_or_add(
 						materialAttributes.pop_back(),
 						randi_range(
-							STAT_ROLLS.rare.min,
-							STAT_ROLLS.rare.max
+							STAT_ROLLS.uncommon.min,
+							STAT_ROLLS.uncommon.max
 						)
 					)
-				# TODO -> Account for case where materialAttributes is empty
-				if randi_range(0, 1):
+			if randi_range(0, 1):
+				if !materialAttributes.is_empty():
 					stats.get_or_add(
 						materialAttributes.pop_back(),
 						randi_range(
-							STAT_ROLLS.rare.min,
-							STAT_ROLLS.rare.max
+							STAT_ROLLS.uncommon.min,
+							STAT_ROLLS.uncommon.max
 						)
 					)
-			elif rarity == 'unique':
-				# TODO -> Unique drop table
-				pass
+		elif rarity == 'unique':
+			# TODO -> Unique drop table
+			pass
 
 
 func getRarity():
 	var rarity = 'common'
 	
 	rarity = rarityUpgradeCheck(rarity)
+	
+	# TODO -> Remove this after we have a unique drop table
+	if rarity == 'unique':
+		rarity = 'rare'
 	
 	return rarity
 
